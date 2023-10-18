@@ -1,13 +1,13 @@
 import { StoreKeys } from '../store.keys'
 import { createSelector } from 'reselect'
 import { type CreatedSelectors, type StoreState } from '../store.types'
-import { certificatesMapping } from '../users/users.selectors'
+import { allUsers } from '../users/users.selectors'
 import { communitiesSelectors } from '../communities/communities.selectors'
 import { peersStatsAdapter } from './connection.adapter'
 import { connectedPeers } from '../network/network.selectors'
-import { sortPeers } from '../../utils/functions/sortPeers/sortPeers'
 import { type NetworkStats } from './connection.types'
 import { type User } from '../users/users.types'
+import { sortPeers } from '@quiet/common'
 
 const connectionSlice: CreatedSelectors[StoreKeys.Connection] = (state: StoreState) => state[StoreKeys.Connection]
 
@@ -15,8 +15,9 @@ export const lastConnectedTime = createSelector(connectionSlice, reducerState =>
 
 export const torBootstrapProcess = createSelector(connectionSlice, reducerState => reducerState.torBootstrapProcess)
 
+export const isTorInitialized = createSelector(connectionSlice, reducerState => reducerState.isTorInitialized)
+
 export const torConnectionProcess = createSelector(connectionSlice, reducerState => reducerState.torConnectionProcess)
-export const isConnectionManager = createSelector(connectionSlice, reducerState => reducerState.isConnectionManager)
 
 export const peerList = createSelector(
   connectionSlice,
@@ -36,7 +37,7 @@ export const peerList = createSelector(
   }
 )
 
-export const connectedPeersMapping = createSelector(certificatesMapping, connectedPeers, (certificates, peers) => {
+export const connectedPeersMapping = createSelector(allUsers, connectedPeers, (certificates, peers) => {
   const usersData = Object.values(certificates)
   return peers.reduce((peersMapping: Record<string, User>, peerId: string) => {
     for (const user of usersData) {
@@ -57,5 +58,5 @@ export const connectionSelectors = {
   peerList,
   torBootstrapProcess,
   torConnectionProcess,
-  isConnectionManager,
+  isTorInitialized,
 }

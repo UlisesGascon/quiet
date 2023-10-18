@@ -62,7 +62,6 @@ describe('User', () => {
     )
 
     store.dispatch(modalsActions.openModal({ name: ModalName.createCommunityModal }))
-    store.dispatch(connection.actions.connectionManagerInit())
 
     window.HTMLElement.prototype.scrollTo = jest.fn()
 
@@ -100,7 +99,6 @@ describe('User', () => {
           communityId: payload.communityId,
           network: {
             certificate: payload.permsData.certificate,
-            peers: [],
           },
         })
       }
@@ -184,26 +182,26 @@ describe('User', () => {
     expect(actions).toMatchInlineSnapshot(`
       Array [
         "Communities/createNetwork",
-        "Communities/clearInvitationCode",
         "Communities/addNewCommunity",
         "Communities/setCurrentCommunity",
         "Modals/closeModal",
         "Modals/openModal",
         "Identity/registerUsername",
         "Communities/responseCreateNetwork",
-        "Communities/clearInvitationCode",
         "Communities/updateCommunityData",
         "Identity/addNewIdentity",
         "Network/setLoadingPanelType",
         "Modals/openModal",
         "Identity/registerCertificate",
         "Communities/addOwnerCertificate",
-        "Communities/storePeerList",
         "Identity/storeUserCertificate",
         "Identity/savedOwnerCertificate",
         "Communities/launchRegistrar",
+        "Identity/saveUserCsr",
         "Files/checkForMissingFiles",
         "Network/addInitializedCommunity",
+        "Communities/clearInvitationCodes",
+        "Communities/sendCommunityMetadata",
         "Identity/saveOwnerCertToDb",
         "PublicChannels/createGeneralChannel",
         "PublicChannels/channelsReplicated",
